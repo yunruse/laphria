@@ -1,4 +1,9 @@
+_[**Laphria**](https://en.wikipedia.org/wiki/Laphria_(festival)) was an ancient Greek religious festival in honour of the goddess Artemis._
+
+here are some very low-key attempts at satellite tracking
+
 # 'live' map of Artemis II
+
 
 !['live' map of Artemis 2](artemis2.png)
 

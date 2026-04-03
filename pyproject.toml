@@ -1,5 +1,5 @@
 [project]
-name = "sat-tracker"
+name = "laphria"
 version = "0.1.0"
 description = "hacky little artemis II tracker"
 requires-python = ">=3.12"
