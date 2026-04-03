@@ -73,4 +73,4 @@ ax.plot(*xyz.T, marker="o", linestyle='', c="red", label="Artemis II")
 
 ax.set_title('Earth-centred Inertial / Mm')
 ax.legend()
-pyplot.savefig('eme.png')
+pyplot.savefig('artemis2.png')
