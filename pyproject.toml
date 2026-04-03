@@ -1,0 +1,6 @@
+[project]
+name = "sat-tracker"
+version = "0.1.0"
+description = "hacky little artemis II tracker"
+requires-python = ">=3.12"
+dependencies = ["matplotlib>=3.10.8", "oem>=0.4.5"]
