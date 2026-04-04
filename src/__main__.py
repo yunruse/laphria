@@ -1,20 +1,19 @@
 
 # TODO: functionalise, add CLI
-from astropy.time import Time
 
 import numpy as np
 from matplotlib import pyplot
 from matplotlib.dates import date2num
 from matplotlib.ticker import FuncFormatter, MultipleLocator
 
-from .helpers import date_cbar, ephemeris, segmented_map, segments
+from .helpers import DateMappable, ephemeris
+from astropy.time import Time
 
 
 sat_ephem, sat_xyz, sat_ts = ephemeris("oem/A2-2026-04-02.oem")
-ss = date2num(sat_ts)
 
-mappable = segmented_map(ss, 'viridis')
-cs = mappable.to_rgba(ss)
+datemap = DateMappable(sat_ts, 'viridis')
+cs = datemap.colors()
 
 # Plot
 fig = pyplot.figure()
@@ -38,11 +37,7 @@ def sat_segments():
 for (xs, ys, zs), cs in sat_segments():
     ax.plot(xs, ys, zs, c=cs[0])
 
-cbar = date_cbar(ax, mappable)
-dnow: float = date2num(Time.now().datetime64)
-cbar.add_lines([dnow], colors=["red"], linewidths=[2.5])
-
-# ax.plot(*sat_xyz.T, linestyle='-', label="Sat")
+cbar = datemap.cbar(ax, now_col="red")
 
 # Points
 POINT = dict(marker="o", linestyle='')
