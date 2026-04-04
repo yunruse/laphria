@@ -37,6 +37,8 @@ def sat_segments():
 for (xs, ys, zs), cs in sat_segments():
     ax.plot(xs, ys, zs, c=cs[0])
 
+datemap.mark_now()
+
 cbar = datemap.cbar(ax, now_col="red")
 
 # Points
