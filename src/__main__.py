@@ -1,18 +1,20 @@
 
 # TODO: functionalise, add CLI
 
+from matplotlib.colors import LinearSegmentedColormap
 import numpy as np
 from matplotlib import pyplot
-from matplotlib.dates import date2num
 from matplotlib.ticker import FuncFormatter, MultipleLocator
 
-from .helpers import DateMappable, ephemeris
 from astropy.time import Time
 
+from .helpers import ephemeris
+from .date_mappable import DateMappable
 
-sat_ephem, sat_xyz, sat_ts = ephemeris("oem/A2-2026-04-02.oem")
+OEM_PATH = "oem/A2-2026-04-02.oem"
+sat_ephem, sat_xyz, sat_ts = ephemeris(OEM_PATH)
 
-datemap = DateMappable(sat_ts, 'viridis')
+datemap = DateMappable(sat_ts, 'rainbow')
 cs = datemap.colors()
 
 # Plot
@@ -37,12 +39,31 @@ def sat_segments():
 for (xs, ys, zs), cs in sat_segments():
     ax.plot(xs, ys, zs, c=cs[0])
 
+markers = datemap.mark_days()
 datemap.mark_now()
-
 cbar = datemap.cbar(ax, now_col="red")
+
+LinearSegmentedColormap
 
 # Points
 POINT = dict(marker="o", linestyle='')
+
+for dt, col, size in markers:
+    x, y, z = np.array([sat_ephem(Time(dt)).position]).T
+    label = None
+    if dt.hour == 0:
+        label = dt.strftime("  %d")
+        ha, va = 'left', 'top'
+        if dt.day in (6, 3):
+            # HACK: nice positioning
+            ha, va = 'right', 'bottom'
+        ax.text(
+            x[0], y[0], z[0], label,
+            ha=ha, va=va, size='xx-small',
+            color='black')
+    ax.plot(
+        x, y, z,
+        c=col, markersize=size * 1.5, linestyle='', marker="o")
 
 EARTH = [[0], [0], [0]]
 ax.plot(*EARTH, c="green", label="Earth", **POINT)
